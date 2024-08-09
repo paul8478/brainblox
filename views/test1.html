@@ -94,16 +94,28 @@
                 .catch(error => console.error('Error!', error.message));
         });
 
-        const socket = new WebSocket('ws://127.0.0.1:3000');
+        const socket = new WebSocket('wss://brainblox-reck.onrender.com');
 
-        // Listen for messages from the server
-        socket.addEventListener('message', function (event) {
-            if (event.data === 'session-ended') {
-                alert('Session has ended.');
-                window.location.reload(); // Refresh the page after the alert is closed
+socket.addEventListener('open', () => {
+    console.log('WebSocket connection opened.');
+});
 
-            }
-        });
+socket.addEventListener('close', (event) => {
+    console.error('WebSocket connection closed:', event);
+});
+
+socket.addEventListener('error', (event) => {
+    console.error('WebSocket error:', event);
+});
+
+socket.addEventListener('message', (event) => {
+    console.log('Message from server:', event.data);
+    if (event.data === 'session-ended') {
+        alert('Session has ended.');
+        window.location.reload(); // Refresh the page after the alert is closed
+    }
+});
+
 
         // Optional: Handle WebSocket connection errors or close events
         socket.addEventListener('close', function (event) {
