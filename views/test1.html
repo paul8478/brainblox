@@ -113,6 +113,8 @@ socket.addEventListener('message', (event) => {
     if (event.data === 'session-ended') {
         alert('Session has ended.');
         window.location.reload(); // Refresh the page after the alert is closed
+            window.onbeforeunload = null;
+                window.location.replace('/session-end');
     }
 });
 
