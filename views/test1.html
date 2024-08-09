@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" href="test.css">
+    <script type="module" src="homepage.js"></script>
+</head>
+<body>
+
+<div class="header">
+    <h1>Welcome to the BattleGround of Knowledge</h1>
+</div>
+
+<div class="container">
+    <form name="submit-to-google-sheet">
+        <div class="headd">
+            <textarea type="text" name="Name" id="loggedUserUsername" placeholder="Enter your Registered Name" style="display: none;"></textarea>
+            <textarea type="text" name="Contact" id="loggedUserPhone" placeholder="Enter your contact number" style="display: none;"></textarea>
+        </div>
+        <div id="quiz-container" class="quiz-container"></div>
+        <button type="submit" id="submit-score">Submit</button>
+    </form>
+    <p id="total-score"></p>
+</div>
+    <script src="main" async defer></script>
+    <script>
+        let score = 0;
+
+        function checkAnswer(quizKey, userAnswer, correctAnswer) {
+            const resultElement = document.getElementById(`result-${quizKey}`);
+            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                score += 1;
+                resultElement.textContent = 'Correct';
+                resultElement.style.color = 'green';
+            } else {
+                resultElement.textContent = 'Incorrect';
+                resultElement.style.color = 'red';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/quizzes')
+                .then(response => response.json())
+                .then(data => {
+                    const quizContainer = document.getElementById('quiz-container');
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const quiz = data[key];
+                            const quizElement = document.createElement('div');
+                            quizElement.classList.add('quiz-element');
+                            quizElement.innerHTML = `
+                                <h2>Question: ${quiz.question}</h2>
+                                <ul>
+                                    <li>${quiz.options[0]}</li>
+                                    <li>${quiz.options[1]}</li>
+                                    <li>${quiz.options[2]}</li>
+                                    <li>${quiz.options[3]}</li>
+                                </ul>
+                                <input type="text" id="answer-${key}" placeholder="Type your answer here">
+                                <button type="button" onclick="checkAnswer('${key}', document.getElementById('answer-${key}').value, '${quiz.correctAnswer}')">Submit Answer</button>
+                                <p id="result-${key}"></p>
+                            `;
+                            quizContainer.appendChild(quizElement);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching quizzes:', error);
+                });
+        });
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyls5wzKfWVIonjn5fZlwV6yxf4SkSNuFA2lwflwtNzBRO_D0O34WLwwPFUMMS8onXW/exec';
+        const form = document.forms['submit-to-google-sheet'];
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const currentTime = new Date().toLocaleString();
+
+            const formData = new FormData(form);
+            formData.append('Score', score);
+            formData.append('timestamp', currentTime);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    console.log('Success!', response);
+                    alert('Score submitted successfully!');
+                    localStorage.setItem('userName', formData.get('Name'));
+                    localStorage.setItem('userContact', formData.get('Contact'));
+                    localStorage.setItem('Score', score);
+
+                    window.location.href = 'result';
+                })
+                .catch(error => console.error('Error!', error.message));
+        });
+
+        const socket = new WebSocket('ws://127.0.0.1:3000');
+
+        // Listen for messages from the server
+        socket.addEventListener('message', function (event) {
+            if (event.data === 'session-ended') {
+                alert('Session has ended.');
+                window.location.reload(); // Refresh the page after the alert is closed
+
+            }
+        });
+
+        // Optional: Handle WebSocket connection errors or close events
+        socket.addEventListener('close', function (event) {
+            console.log('WebSocket connection closed.');
+        });
+
+        socket.addEventListener('error', function (event) {
+            console.error('WebSocket error:', event);
+        });
+
+
+
+        function logout() {
+        fetch('/logout', { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    alert('The session has ended.');
+                    location.reload(); // Refresh the page
+                    window.location.href = '/session-end';
+
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => console.error('Error logging out:', error));
+    }
+
+        //for prevent to use the backbutton 
+        function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+
+     // Redirect if the user switches tabs
+ document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+        window.location.href = 'result';
+    }
+});
+
+document.addEventListener('copy', (e) => {
+    e.clipboardData.setData('text/plain', '');
+    e.preventDefault();
+    alert('Copying text is disabled');
+});
+
+// Handle keyup event without triggering alerts for typing
+// document.addEventListener('keyup', (e) => {
+//     Optionally, you can handle specific key events here if needed
+// });
+
+// Enter fullscreen mode
+function enterFullscreen() {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+        document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+        document.documentElement.msRequestFullscreen();
+    }
+}
+
+// Call enterFullscreen when the page loads
+document.addEventListener('DOMContentLoaded', enterFullscreen);
+
+// Detect window resize and redirect if the window size is too small
+function checkWindowSize() {
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+//     // Adjust the threshold as needed
+    const thresholdWidth = screenWidth * 0.75; // 75% of screen width
+    const thresholdHeight = screenHeight * 0.75; // 75% of screen height
+
+    if (windowWidth < thresholdWidth || windowHeight < thresholdHeight) {
+        window.location.href = 'Pleae-Open-Tab-Fully.html';
+    }
+}
+
+// Initial check when the page loads
+document.addEventListener('DOMContentLoaded', checkWindowSize);
+
+// Check on window resize
+window.addEventListener('resize', checkWindowSize);
+
+// Example to detect multiple tabs (limited and may not work in all cases)
+window.addEventListener('storage', function(event) {
+    if (event.key === 'exam_open' && event.newValue === 'true') {
+        window.location.href = 'Multiple-Tab-Detected.html';
+    }
+});
+
+// Set a flag when the page is loaded
+window.addEventListener('load', function() {
+    localStorage.setItem('exam_open', 'true');
+    window.addEventListener('beforeunload', function() {
+        localStorage.removeItem('exam_open');
+    });
+});
+
+// Disable some keyboard shortcuts (not a comprehensive block)
+
+// Block opening new tabs by detecting ctrl+click
+document.addEventListener('mousedown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        alert('Opening new tabs is disabled.');
+    }
+});
+    </script>
+</body>
+</html>

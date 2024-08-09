@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+<head>
+    <title>Admin</title>
+    <script>
+        let quizCount = 1;
+
+        function addQuiz() {
+            quizCount++;
+
+            const quizDiv = document.createElement('div');
+            quizDiv.classList.add('quiz');
+
+            quizDiv.innerHTML = `
+                <h3>Question ${quizCount}:</h3>
+                <label for="question${quizCount}">Question:</label><br>
+                <input type="text" name="question" id="question${quizCount}" required><br><br>
+
+                <label for="option1_${quizCount}">Option 1:</label><br>
+                <input type="text" name="option1" id="option1_${quizCount}" required><br><br>
+
+                <label for="option2_${quizCount}">Option 2:</label><br>
+                <input type="text" name="option2" id="option2_${quizCount}" required><br><br>
+
+                <label for="option3_${quizCount}">Option 3:</label><br>
+                <input type="text" name="option3" id="option3_${quizCount}" required><br><br>
+
+                <label for="option4_${quizCount}">Option 4:</label><br>
+                <input type="text" name="option4" id="option4_${quizCount}" required><br><br>
+
+                <label for="correctAnswer${quizCount}">Correct Answer:</label><br>
+                <input type="text" name="correctAnswer" id="correctAnswer${quizCount}" required><br><br>
+                <hr>
+            `;
+
+            document.getElementById('quizzes').appendChild(quizDiv);
+        }
+    </script>
+</head>
+<body>
+    <form action="/start" method="post">
+        <input type="hidden" name="session_type" value="session1">
+        <button type="submit">Start Session 2</button>
+    </form>
+
+    <button onclick="endSession()">End Session</button>
+
+    <h1>Upload Quiz Questions room 1</h1>
+    <form action="/upload" method="post">
+        <label for="room">Select Room:</label><br>
+        <select name="room" id="room" required>
+            <option value="room2">Room 2</option>
+        </select><br><br>
+
+        <div id="quizzes">
+            <div class="quiz">
+                <h3>Question 1:</h3>
+                <label for="question1">Question:</label><br>
+                <input type="text" name="question" id="question1" required><br><br>
+
+                <label for="option1_1">Option 1:</label><br>
+                <input type="text" name="option1" id="option1_1" required><br><br>
+
+                <label for="option2_1">Option 2:</label><br>
+                <input type="text" name="option2" id="option2_1" required><br><br>
+
+                <label for="option3_1">Option 3:</label><br>
+                <input type="text" name="option3" id="option3_1" required><br><br>
+
+                <label for="option4_1">Option 4:</label><br>
+                <input type="text" name="option4" id="option4_1" required><br><br>
+
+                <label for="correctAnswer1">Correct Answer:</label><br>
+                <input type="text" name="correctAnswer" id="correctAnswer1" required><br><br>
+            </div>
+        </div>
+
+        <button type="submit">Upload Quizzes</button>
+    </form>
+    <script>
+        function endSession() {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Session ended successfully');
+                    window.location.href = '/end';
+                } else {
+                    alert('Failed to end session. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while ending the session.');
+            });
+        }
+    </script>
+</body>
+</html>

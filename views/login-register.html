@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="auth.css">
+    <script type="module" src="firebaseauth.js"></script>
+</head>
+
+<body>
+    <div>
+    <h2 id="loader" style="display:none;">Loading...</h2>
+    <div id="signup" style="display:none;">
+        <div id="signUpMessage" class="messageDiv" style="display:none;"></div>
+        <div class="unique-container">
+            <div class="unique-register-form">
+                <h2>Register</h2>
+                <form method="post" action="">
+                    <div class="unique-form-group">
+
+                        <input type="text" id="username" name="username" placeholder="Username" required>
+                        <input type="text" id="fName" name="fName" placeholder="First Name" required>
+                        <input type="text" id="lName" name="lName" placeholder="Last Name" required>
+                    </div>
+                    <div class="unique-form-group">
+                        <input type="email" id="rEmail" name="rEmail" placeholder="Email" required>
+                        <input type="password" id="rPassword" name="rPassword" placeholder="Password" required>
+                        <input type="text" id="phone" name="phone" placeholder="Phone" required>
+                    </div>
+                    <div class="unique-form-group">
+                        <input type="date" id="bod" name="bod" placeholder="Date of Birth" required>
+                        <input type="text" id="gender" name="gender" placeholder="Gender" required>
+                        <input type="text" id="city" name="city" placeholder="City" required>
+                    </div>
+                    <div class="unique-form-group">
+                        <input type="text" id="country" name="country" placeholder="Country" required>
+                        <input type="text" id="instagram" name="instagram" placeholder="Instagram" required>
+                        <input type="text" id="github" name="github" placeholder="GitHub" required>
+                    </div>
+                    <div class="unique-form-group">
+                        <input type="text" id="linkedin" name="linkedin" placeholder="LinkedIn" required>
+                    </div>
+                    <button type="submit" class="unique-signup-btn" id="submitSignUp">Sign Up</button>
+                </form>
+                <div class="unique-login-link">
+                    <p>Already Have Account? <a href="#">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+    <div class="container" id="signIn">
+        <h1 class="form-title">Sign In</h1>
+        <form method="post" action="">
+            <div id="signInMessage" class="messageDiv" style="display:none;"></div>
+
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email"  required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" required>
+                <label for="password">Password</label>
+            </div>
+            <p class="recover">
+                <!-- <a href="#">Recover Password</a> -->
+            </p>
+            <button class="btn" id="submitSignIn">Sign In</button>
+        </form>
+        <p class="or">
+            ----------or--------
+        </p>
+
+        <div class="links">
+            <p>Don't have account yet?</p>
+            <button href="/" id="signUpButton">Sign Up</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

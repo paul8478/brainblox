@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Fixed Navbar Example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="body.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="navbar.css">
+    <script type="module" src="homepage.js"></script>
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <p class="left-text">Brain<span class="crim-span">Blox</span></p>
+        </div>
+        <div class="nav-center">
+            <ul class="nav-border1">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="profile">Account</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <p class="right-text">Hello <span class="crim-span" id="loggedUserFName"></span></p> <button
+                class="logout-btn" id="logout">Logout</button>
+        </div>
+    </nav>
+
+    <div class="segment1"> <!-- Dummy content to enable scrolling -->
+        <div class="segment1-1">
+            <h1>Welcome to the BrainBlox,<br>
+                Battleground of Brains</h1>
+            <p>unleash Brainwave's potential & show <br>
+                power of your knowladge</p>
+        </div>
+    </div>
+
+    <div class="segment2"> <!-- Dummy content to enable scrolling -->
+        <div>
+            <div class="session-div1">
+                <div class="session-div2">
+                    <center><h1 class="session-text">Enter your Session Code</h1></center>
+
+                    <form action="/access" method="post" class="access-form">
+                        <input type="text" name="code" placeholder="Enter session code" class="code-inp">
+                        <button type="submit" class="cp-btn">Access Session</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="segment3">
+        <div class="segment3-1">
+            <br>
+            <p>Chat Smarter, Not</p>
+        </div>
+        <div class="segment3-2">
+            <div class="image-container">
+                <img src="bg" class="seg-3-img">
+                <span class="text-overlay">
+                    Upgrade your skills & knowladges
+                </span>
+            </div>
+            <div class="image-container">
+                <img src="bg" class="seg-3-img">
+                <span class="text-overlay">
+                    Upgrade your skills & knowladges
+                </span>
+            </div>
+            <div class="image-container">
+                <img src="bg" class="seg-3-img">
+                <span class="text-overlay">
+                    Upgrade your skills & knowladges
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="segment4">
+        <div class="content-container">
+            <img src="split-1" class="seg-4-img">
+            <div class="text-section">
+                <h2>How It Works</h2>
+                <h1>Connect with AI chatbot</h1>
+                <p>Identify the platform or interface through which you can access the chatbot. This could be a website,
+                    a messaging app, or a dedicated application.</p>
+                <button class="cta-button">Try It Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="segment6">
+        <div class="main-container">
+            <div class="text-section">
+                <h2 class="title">Join our AI Experts community</h2>
+                <p class="description">Meet and learn from 80+ creators & companies who share how they use AI to create
+                    better content at lightning speed.</p>
+            </div>
+            <div class="cta-container">
+                <button class="signup-button">Join Now Today Free</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="segment7">
+        <div class="features">
+            <div class="feature-item">
+                <img src="https://via.placeholder.com/50" alt="Icon">
+                <h2>100% No-Risk, Money Back Guarantee!</h2>
+                <p>Refunds will be issued within period of 14 days from the purchase date</p>
+            </div>
+            <div class="feature-item">
+                <img src="https://via.placeholder.com/50" alt="Icon">
+                <h2>Upgrade or Cancel Anytime</h2>
+                <p>Passages there are many variations variations of Lorem Ipsum available</p>
+            </div>
+            <div class="feature-item">
+                <img src="https://via.placeholder.com/50" alt="Icon">
+                <h2>Not sure yet, try the free version</h2>
+                <p>Refunds will be issued within period of 14 days from the purchase date</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Site footer -->
+    <!-- <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <h6>About</h6>
+                    <p>Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative to help the
+                        upcoming programmers with the code. Scanfcode focuses on providing the most efficient code or
+                        snippets as the code wants to be simple. We will help programmers build up concepts in different
+                        programming languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android,
+                        SQL and Algorithm.</p>
+                </div>
+
+                <div>
+                    <h6>Categories</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
+                        <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
+                        <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+                        <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+                        <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+                        <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/about/">About Us</a></li>
+                        <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+                        <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+                        <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class=>
+                    <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by
+                        <a href="#">Scanfcode</a>.
+                    </p>
+                </div>
+
+                <div class=>
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </footer> -->
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h6>About</h6>
+                    <p>Scanfcode.com <i>CODE WANTS TO BE SIMPLE</i> is an initiative to help upcoming programmers with
+                        code.
+                        languages including C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL, and
+                        Algorithm.</p>
+                </div>
+
+                <div class="footer-section categories">
+                    <h6>Categories</h6>
+                    <ul>
+                        <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
+                        <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
+                        <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+                        <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+                        <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+                        <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section quick-links">
+                    <h6>Quick Links</h6>
+                    <ul>
+                        <li><a href="http://scanfcode.com/about/">About Us</a></li>
+                        <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+                        <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+                        <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p>&copy; 2024 BrainBlox. All Rights Reserved.</p>
+                </div>
+                <div class="footer-bottom-right">
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#">f<i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter">t</i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i>d</a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i>l</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="" async defer></script>
+</body>
+
+</html>

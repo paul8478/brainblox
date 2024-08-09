@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="admin1">
+    <title>Global Ranks</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <h2>Silver<span class="danger">Fox V1.0.1</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a href="panel">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="user">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Users</h3>
+                </a>
+
+                <a href="adminlogin">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Admin Users</h3>
+                </a>
+                <a href="registrations">
+                    <span class="material-icons-sharp">
+                        notes
+                    </span>
+                    <h3>Registration</h3>
+                </a>
+                <a href="rooms">
+                    <span class="material-icons-sharp">
+                        note
+                    </span>
+                    <h3>Rooms</h3>
+                </a>
+                <a href="analytics" class="active">
+                    <span class="material-icons-sharp">
+                        insights
+                    </span>
+                    <h3>Analytics</h3>
+                </a>
+                <a href="brodcast">
+                    <span class="material-icons-sharp">
+                        message
+                    </span>
+                    <h3>Brodcast</h3>
+                    </a>
+                <a href="grank">
+                    <span class="material-icons-sharp">
+                        leaderboard
+                    </span>
+                    <h3>Global Ranks</h3>
+                </a>
+                <a href="report">
+                    <span class="material-icons-sharp">
+                        report_gmailerrorred
+                    </span>
+                    <h3>Reports</h3>
+                </a>
+                <a href="settings">
+                    <span class="material-icons-sharp">
+                        settings
+                    </span>
+                    <h3>Settings</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        logout
+                    </span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- End of Sidebar Section -->
+
+        <!-- Main Content -->
+        <main>
+            <h1>Global Ranks</h1>
+            
+            <!-- Recent Orders Table -->
+            <div class="recent-orders">
+                <h2>Top Global Ranks</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Number</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Total Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="globalRanks"></tbody>
+                </table>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <!-- End of Recent Orders -->
+
+        </main>
+        <!-- End of Main Content -->
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+                
+                <div class="profile">
+                    <div class="info">
+                        <p>Hey, <b>Reza</b></p>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="https://jagluck.org/resources/image/person-man.png">
+                    </div>
+                </div>
+
+            </div>
+            <!-- End of Nav -->
+
+            <div class="user-profile">
+                <div class="logo">
+                    <h2>Somnath Paul</h2>
+                    <p>Welcome to Admin Panel</p>
+                </div>
+            </div>
+
+            
+
+    </div>
+
+    <script src="orders.js"></script>
+    <script>
+        const ws = new WebSocket('ws://localhost:3001');
+
+ws.onopen = function() {
+    ws.send(JSON.stringify({ action: 'fetch_users' }));
+};
+
+ws.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+
+    if (data.status === 'success' && data.message === 'User registered successfully!') {
+        ws.send(JSON.stringify({ action: 'fetch_users' }));
+    } else if (data.status === 'users') {
+        const globalRanks = document.getElementById('globalRanks');
+        globalRanks.innerHTML = ''; // Clear the current list
+
+        // Sort users by totalPoints in descending order
+        const sortedUsers = data.users.sort((a, b) => b.totalPoints - a.totalPoints);
+
+        sortedUsers.slice(0, 5).forEach(user => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${user.name}</td>
+                <td>${user.phone}</td>
+                <td>${user.email}</td>
+                <td>${user.password}</td>
+                <td>${user.totalPoints}</td>
+            `;
+            globalRanks.appendChild(tr);
+        });
+    }
+};
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+const WebSocket = require('ws');
+const http = require('http');
+const fs = require('fs');
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin SDK
+const serviceAccount = require('./serviceAccountKey.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://quiz-531fa-default-rtdb.firebaseio.com/', // Replace this with your actual Firebase Realtime Database URL
+});
+
+const server = http.createServer((req, res) => {
+  if (req.method === 'GET' && req.url === '/') {
+    fs.readFile('index.html', (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Error loading index.html');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+      }
+    });
+  } else {
+    res.writeHead(404);
+    res.end('Not Found');
+  }
+});
+
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+
+  // Handle registration and fetch users messages
+  ws.on('message', async (message) => {
+    try {
+      const data = JSON.parse(message);
+      
+      if (data.action === 'register') {
+        const { email, password, name, phone } = data;
+
+        // Register with Firebase Authentication
+        const userRecord = await admin.auth().createUser({
+          email,
+          password,
+        });
+        const userId = userRecord.uid;
+
+        // Add user to Realtime Database
+        await admin.database().ref('users').child(name).set({
+          email,
+          password,
+          name,
+          phone,
+          uniqueId: userId,
+          totalPoints: 0
+        });
+
+        ws.send(JSON.stringify({ status: 'success', message: 'User registered successfully!' }));
+      } else if (data.action === 'fetch_users') {
+        // Fetch all users from Realtime Database
+        const snapshot = await admin.database().ref('users').once('value');
+        const users = [];
+        snapshot.forEach(childSnapshot => {
+          users.push(childSnapshot.val());
+        });
+
+        ws.send(JSON.stringify({ status: 'users', users }));
+      }
+    } catch (error) {
+      ws.send(JSON.stringify({ status: 'error', message: error.message }));
+    }
+  });
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
+});
+
+server.listen(3001, () => {
+  console.log('WebSocket server is running on port 3001');
+});
