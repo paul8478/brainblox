@@ -30,11 +30,11 @@
             const resultElement = document.getElementById(`result-${quizKey}`);
             if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
                 score += 1;
-                resultElement.textContent = 'Correct';
+                resultElement.textContent = 'recorded';
                 resultElement.style.color = 'green';
             } else {
-                resultElement.textContent = 'Incorrect';
-                resultElement.style.color = 'red';
+                resultElement.textContent = 'recorded';
+                resultElement.style.color = 'green';
             }
         }
 
