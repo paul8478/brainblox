@@ -63,6 +63,8 @@ const routes = [
     { path: '/login-register', file: 'login-register.html' },
     { path: '/redirect', file: 'redirect.html' },
     { path: '/end', file: 'end.html' },
+    { path: '/ans', file: 'ans.html' },
+
 ];
 
 routes.forEach(route => {
@@ -239,21 +241,38 @@ app.post('/upload', async (req, res) => {
 });
 
 // Submit score to Firebase
-app.post('/submit-score', async (req, res) => {
-    const { name, phone, score } = req.body;
+app.post('/submit-score', (req, res) => {
+    // Accept both camelCase and PascalCase
+    const name = req.body.name || req.body.Name;
+    const phone = req.body.phone || req.body.Contact;
+    const score = req.body.score || req.body.Score;
 
     if (!name || !phone || score === undefined) {
         console.error('Invalid data provided');
         return res.status(400).json({ success: false, message: 'Invalid data provided' });
     }
 
-    try {
-        const scoresRef = `${firebaseConfig.databaseURL}/scores-quiz-1/${name}.json`;
-        await axios.put(scoresRef, { name, phone, score });
-        res.json({ success: true });
-    } catch (error) {
-        console.error('Error saving score: ' + error.message);
-        res.status(500).json({ success: false, message: 'Error saving score' });
+    // Save to JSON file instead of Firebase
+    const result = { name, phone, score, timestamp: req.body.timestamp || new Date().toISOString() };
+    const filePath = path.join(__dirname, 'scores.json');
+    let scores = [];
+
+    if (fs.existsSync(filePath)) {
+        scores = JSON.parse(fs.readFileSync(filePath));
+    }
+    scores.push(result);
+
+    fs.writeFileSync(filePath, JSON.stringify(scores, null, 2));
+    res.json({ success: true });
+});
+
+app.get('/scores', (req, res) => {
+    const filePath = path.join(__dirname, 'scores.json');
+    if (fs.existsSync(filePath)) {
+        const scores = JSON.parse(fs.readFileSync(filePath));
+        res.json(scores);
+    } else {
+        res.json([]);
     }
 });
 

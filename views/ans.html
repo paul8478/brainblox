@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-purple-900 via-gray-900 to-black min-h-screen text-gray-100 font-sans">
+    <header class="bg-black/70 p-6 text-center border-b border-gray-700">
+        <h1 class="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">Quiz Results</h1>
+    </header>
+    <main class="flex flex-col items-center mt-10 px-4 md:px-20">
+        <div class="w-full max-w-3xl bg-gray-900/70 rounded-2xl shadow-xl border border-gray-700 p-6">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-purple-800/60">
+                        <th class="py-2 px-4">Name</th>
+                        <th class="py-2 px-4">Phone</th>
+                        <th class="py-2 px-4">Score</th>
+                        <th class="py-2 px-4">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                    <!-- Results will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        fetch('/scores')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('results-body');
+                data.forEach(result => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="py-2 px-4 border-b border-gray-700">${result.name}</td>
+                        <td class="py-2 px-4 border-b border-gray-700">${result.phone}</td>
+                        <td class="py-2 px-4 border-b border-gray-700">${result.score}</td>
+                        <td class="py-2 px-4 border-b border-gray-700">${result.timestamp}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+    </script>
+</body>
+</html>
